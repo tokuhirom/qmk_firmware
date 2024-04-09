@@ -187,10 +187,34 @@ void pointing_device_init_user(void) {
     set_auto_mouse_enable(true);
 }
 
-const uint16_t PROGMEM test_combo1[] = {KC_A, KC_B, COMBO_END};
-const uint16_t PROGMEM test_combo2[] = {KC_C, KC_D, COMBO_END};
-combo_t key_combos[] = {
-    COMBO(test_combo1, KC_ESC),
-    COMBO(test_combo2, UC(0x2910)),
+//////  combos
+
+enum combo_events {
+    COMBO_ZJ,
+    COMBO_ZK,
 };
+
+
+static const uint16_t PROGMEM combo_zj[] = {KC_Z, KC_J, COMBO_END};
+static const uint16_t PROGMEM combo_zk[] = {KC_Z, KC_K, COMBO_END};
+combo_t key_combos[] = {
+    [COMBO_ZJ] = COMBO_ACTION(combo_zj),
+    [COMBO_ZK] = COMBO_ACTION(combo_zk),
+};
+
+void process_combo_event(uint16_t combo_index, bool pressed) {
+  switch(combo_index) {
+    case COMBO_ZJ:
+      if (pressed) {
+        SEND_STRING("john.doe@example.com");
+      }
+      break;
+    case COMBO_ZK:
+      if (pressed) {
+        register_unicode(0x2190);
+      }
+      break;
+  }
+}
+
 

@@ -187,29 +187,10 @@ void pointing_device_init_user(void) {
     set_auto_mouse_enable(true);
 }
 
-enum custom_keycodes {
-  ZK_COMBO = SAFE_RANGE,
-  ZH_COMBO,
+const uint16_t PROGMEM test_combo1[] = {KC_A, KC_B, COMBO_END};
+const uint16_t PROGMEM test_combo2[] = {KC_C, KC_D, COMBO_END};
+combo_t key_combos[] = {
+    COMBO(test_combo1, KC_ESC),
+    COMBO(test_combo2, UC(0x2910)),
 };
-
-const uint16_t PROGMEM zk_combo[] = {KC_Z, KC_K, COMBO_END};
-const uint16_t PROGMEM zh_combo[] = {KC_Z, KC_H, COMBO_END};
-
-combo_t key_combos[COMBO_COUNT] = {
-  [ZK_COMBO] = COMBO(zk_combo, ZK_COMBO), // COMBOマクロを使用して、コンボを定義します
-  [ZH_COMBO] = COMBO(zh_combo, ZH_COMBO), // COMBOマクロを使用して、コンボを定義します
-};
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case ZK_COMBO:
-      if (record->event.pressed) {
-        // Unicode文字を送信
-        register_unicode(0x2190);
-      }
-      break;
-  }
-  return true;
-}
-
 
